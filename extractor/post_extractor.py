@@ -5,7 +5,7 @@ from typing import Generator, Optional
 
 from praw.models import Submission
 
-from extractor_base import ExtractorBase
+from extractor.extractor_base import ExtractorBase
 
 
 class PostExtractor(ExtractorBase):

@@ -5,8 +5,8 @@ import praw
 from psaw import PushshiftAPI
 from psycopg2.pool import ThreadedConnectionPool
 
-from comment_extractor import CommentExtractor
-from post_extractor import PostExtractor
+from extractor.comment_extractor import CommentExtractor
+from extractor.post_extractor import PostExtractor
 
 load_dotenv()
 

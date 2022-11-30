@@ -4,7 +4,7 @@ from typing import Generator, List
 
 from praw.models import Comment
 
-from extractor_base import ExtractorBase
+from extractor.extractor_base import ExtractorBase
 
 
 class CommentExtractor(ExtractorBase):
