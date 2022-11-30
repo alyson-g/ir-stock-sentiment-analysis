@@ -36,7 +36,7 @@ def main():
     )
 
     extractor = PostExtractor(api, pool)
-    extractor.find_all_posts("2020-12-01", "2022-11-27")
+    extractor.find_all("2020-12-01", "2022-11-27")
 
     extractor = CommentExtractor(api, pool)
     extractor.find_all()
