@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS stocks (
+  symbol CHARACTER VARYING(5),
+  name TEXT,
+  PRIMARY KEY(symbol)
+);

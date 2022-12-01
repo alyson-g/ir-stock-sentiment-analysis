@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS comments (
     author TEXT,
     body TEXT,
     created_at TIMESTAMP WITHOUT TIME ZONE,
+    vader_score_body TEXT,
+    roberta_score_body TEXT,
     PRIMARY KEY(id),
     CONSTRAINT fk_posts
         FOREIGN KEY(parent_id)

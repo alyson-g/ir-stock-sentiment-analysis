@@ -5,5 +5,9 @@ CREATE TABLE IF NOT EXISTS posts (
     author TEXT,
     num_comments INTEGER,
     created_at TIMESTAMP WITHOUT TIME ZONE,
+    vader_score_title TEXT,
+    roberta_score_title TEXT,
+    vader_score_post_text TEXT,
+    roberta_score_post_text TEXT,
     PRIMARY KEY(id)
 );    

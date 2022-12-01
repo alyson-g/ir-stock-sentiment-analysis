@@ -7,6 +7,8 @@ from psycopg2.pool import ThreadedConnectionPool
 
 from extractor.comment_extractor import CommentExtractor
 from extractor.post_extractor import PostExtractor
+from sentiment.comment_adder import CommentAdder
+from sentiment.post_adder import PostAdder
 
 load_dotenv()
 
@@ -40,6 +42,12 @@ def main():
 
     extractor = CommentExtractor(api, pool)
     extractor.find_all()
+
+    post_adder = PostAdder(pool)
+    post_adder.apply_sentiment()
+
+    comment_adder = CommentAdder(pool)
+    comment_adder.apply_sentiment()
 
 
 if __name__ == "__main__":

@@ -216,3 +216,6 @@ output_reports/
 # Jupyter notebook folder and checkpoints
 notebooks/
 .ipynb_checkpoints/
+
+# Model download
+cardiffnlp/
