@@ -1,15 +1,53 @@
 from concurrent.futures.thread import ThreadPoolExecutor
-from datetime import datetime
+from datetime import datetime, timedelta
 from itertools import pairwise
-from typing import Generator, Optional
+from typing import Generator, Optional, List
 
+from psaw import PushshiftAPI
 from praw.models import Submission
+from psycopg2.pool import ThreadedConnectionPool
 
-from extractor.extractor_base import ExtractorBase
 
-
-class PostExtractor(ExtractorBase):
+class PostExtractor:
     """Extracts posts using PSAW and PRAW."""
+
+    def __init__(self, api: PushshiftAPI, pool: ThreadedConnectionPool):
+        """Initialize a PostExtractor instance.
+
+        :param api: An initialized PushshiftAPI client
+        :param pool: An initialized thread-safe Postgres connection pool
+        """
+        self.api = api
+        self.pool = pool
+
+    @staticmethod
+    def _str_to_unix_timestamp(date: datetime.date) -> int:
+        """Convert a date in a string to a Unix timestamp.
+
+        :param date: A datetime date
+        :return: A Unix timestamp
+        """
+        return int(date.timestamp())
+
+    def _get_all_dates_in_range(
+            self,
+            start_date: datetime.date,
+            end_date: datetime.date
+    ) -> List[int]:
+        """Return all dates between two dates.
+
+        :param start_date: The start date of the range
+        :param end_date: The end date of the range
+        :return: A list of dates as Unix timestamps
+        """
+        delta = end_date - start_date
+        days = []
+
+        for i in range(delta.days + 1):
+            date = self._str_to_unix_timestamp(start_date + timedelta(days=i))
+            days.append(date)
+
+        return days
 
     def _get_generator(
             self,
