@@ -1,4 +1,5 @@
 import os
+import logging
 
 from dotenv import load_dotenv
 import praw
@@ -14,6 +15,11 @@ load_dotenv()
 
 
 def main():
+    logging.basicConfig(
+        level=logging.INFO,
+        format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s"
+    )
+
     client_id = os.getenv("PRAW_CLIENT_ID")
     client_secret = os.getenv("PRAW_SECRET")
     user_agent = os.getenv("PRAW_USER_AGENT")
@@ -38,7 +44,7 @@ def main():
     )
 
     extractor = PostExtractor(api, pool)
-    extractor.find_all("2020-12-01", "2022-11-27")
+    extractor.find_all("2020-12-01", "2022-01-01")
 
     extractor = CommentExtractor(client, pool)
     extractor.find_all()

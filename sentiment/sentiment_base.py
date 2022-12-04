@@ -6,6 +6,7 @@ roBERTa Sentiment Analysis: https://huggingface.co/cardiffnlp/twitter-roberta-ba
 """
 from abc import ABC, abstractmethod
 import csv
+import logging
 from typing import List
 import urllib
 
@@ -143,7 +144,7 @@ class SentimentBase(ABC):
                 vader_score = self._calculate_vader(row[column])
                 roberta_score = self._calculate_roberta(row[column])
             except:
-                print(f"Could not process {row['id']}")
+                logging.info(f"Could not process {row['id']}")
                 continue
 
             query = f"""

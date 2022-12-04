@@ -1,4 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor
+import logging
 
 from sentiment.sentiment_base import SentimentBase
 
@@ -15,5 +16,5 @@ class CommentAdder(SentimentBase):
 
         with ThreadPoolExecutor() as executor:
             for _, row in data.iterrows():
-                print(f"Processing {row['id']}")
+                logging.info(f"Processing {row['id']}")
                 executor.submit(self._update_row, row, columns, "comments")

@@ -1,5 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
+import logging
 from typing import Generator, List
 
 from praw import Reddit
@@ -44,12 +45,10 @@ class CommentExtractor:
     def _get_generator(
             self,
             post_id: str,
-            subreddit: str
     ) -> Generator[Comment, None, None]:
         """Gets a comment generator for a specified subreddit.
 
         :param post_id: The ID of the parent post
-        :param subreddit: The name of the subreddit to search
         :return: A generator of comments
         """
         submission = self.client.submission(post_id)
@@ -63,9 +62,9 @@ class CommentExtractor:
         :param post_id: The ID of the post
         :return: None
         """
-        print(f"Processing post {post_id}...")
+        logging.info(f"Processing post {post_id}...")
 
-        generator = self._get_generator(post_id, subreddit)
+        generator = self._get_generator(post_id)
 
         conn = self.pool.getconn()
         for comment in generator:

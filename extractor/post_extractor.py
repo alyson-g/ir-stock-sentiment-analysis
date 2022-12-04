@@ -1,6 +1,8 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 from datetime import datetime, timedelta
 from itertools import pairwise
+import logging
+from time import sleep
 from typing import Generator, Optional, List
 
 from psaw import PushshiftAPI
@@ -64,6 +66,7 @@ class PostExtractor:
         :param limit: The maximum number of posts the API returns
         :return: A generator of posts
         """
+        sleep(1)
         return self.api.search_submissions(
             after=start_date,
             before=end_date,
@@ -96,8 +99,6 @@ class PostExtractor:
         :param limit: The maximum number of posts to retrieve
         :return: None
         """
-        print(f"Processing {datetime.utcfromtimestamp(start_date).strftime('%Y-%m-%d')}...")
-
         generator = self._get_generator(
             start_date,
             end_date,
@@ -117,7 +118,7 @@ class PostExtractor:
             cur = conn.cursor()
 
             query = """
-                        INSERT INTO POSTS 
+                        INSERT INTO POSTS
                             (id, title, post_text, author, num_comments, created_at)
                         VALUES
                             (%s, %s, %s, %s, %s, %s)
@@ -125,6 +126,8 @@ class PostExtractor:
             cur.execute(query, (submission_id, title, text, author, num_comments, created_at))
             conn.commit()
             self.pool.putconn(conn)
+
+        logging.info(f"Processed {datetime.utcfromtimestamp(start_date).strftime('%Y-%m-%d')}")
 
     def find_all(
             self,
